@@ -1,0 +1,48 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Material.Light">
+        <item name="android:colorPrimary">@color/blue_primary</item>
+        <item name="android:colorPrimaryDark">@color/blue_primary_dark</item>
+        <item name="android:colorAccent">@color/green_primary</item>
+        <item name="android:colorControlHighlight">@color/blue_light</item>
+
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+
+        <item name="android:windowBackground">@color/blue_primary</item>
+    </style>
+
+    <style name="TextShadow">
+        <item name="android:shadowColor">@color/soft_black</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowRadius">1.5</item>
+    </style>
+
+    <style name="BaseTextCode">
+        <item name="android:textSize">24sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">@dimen/padding_small</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:fontFamily">monospace</item>
+    </style>
+
+    <style name="TextCode" parent="BaseTextCode">
+        <item name="android:background">@color/gray</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+    <style name="TextCode.Small">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextCode.Big">
+        <item name="android:textSize">50sp</item>
+        <item name="android:padding">@dimen/padding_large</item>
+    </style>
+</resources>
