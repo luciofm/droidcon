@@ -4,25 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/yellow_light_background"
+    android:background="@color/blue_light_background"
     android:animateLayoutChanges="true"
-    android:gravity="center"
+    android:layout_gravity="center"
     android:id="@+id/container"
     android:clickable="true"
-    android:padding="48dp"
-    tools:context="com.luciofm.ifican.app.ui.IfICanFragment">
+    tools:context="com.luciofm.droidcon.ifican.fragment.WhyFragment">
 
     <com.luciofm.droidcon.ifican.widget.TextView
         android:id="@+id/text1"
-        android:text="Hello..."
+        android:text="Why animate?"
         android:padding="@dimen/padding_big"
         android:gravity="center"
         android:textSize="@dimen/text_title_huge"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/green_primary"
+        android:textColor="@color/blue_primary"
         style="@style/TextShadow"
         app:typeFace="YanoneKaffeesatz-Regular.ttf"/>
+
 </FrameLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:transitionOrdering="sequential" >
+
+  <changeTransform>
+        <targets>
+            <target android:targetId="@id/image" />
+        </targets>
+  </changeTransform>
+  <changeBounds>
+          <targets>
+              <target android:targetId="@id/image" />
+          </targets>
+  </changeBounds>
+
+<!--
+    <fade
+        android:fadingMode="fade_in">
+        <targets>
+            <target android:targetId="@id/text1" />
+        </targets>
+    </fade>
+
+    <fade
+        android:fadingMode="fade_in">
+        <targets>
+            <target android:targetId="@id/text2" />
+        </targets>
+    </fade>
+
+    <fade
+        android:fadingMode="fade_in">
+        <targets>
+            <target android:targetId="@id/text3" />
+        </targets>
+    </fade>
+-->
+    <slide android:slideEdge="left" />
+
+</transitionSet>

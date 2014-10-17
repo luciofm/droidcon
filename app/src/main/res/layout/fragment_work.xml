@@ -12,7 +12,6 @@
         android:orientation="horizontal"
         android:animateLayoutChanges="true"
         android:gravity="center"
-        android:alpha="0"
         android:id="@+id/container2">
 
         <FrameLayout
@@ -24,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imageMuambator1"
                 android:src="@drawable/muambator_old_blur"
+                android:alpha="0"
                 android:layout_gravity="center"/>
             <ImageView
                 android:layout_width="wrap_content"
@@ -44,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imageWhi1"
                 android:src="@drawable/whi_blur"
+                android:alpha="0"
                 android:layout_gravity="center"/>
             <ImageView
                 android:layout_width="wrap_content"

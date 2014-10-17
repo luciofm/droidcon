@@ -30,6 +30,11 @@ public class HelloFragment extends BaseFragment {
     }
 
     @Override
+    public String getMessage() {
+        return "First, hello and thank you everyone…";
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.inject(this, v);

@@ -23,6 +23,8 @@ public abstract class BaseFragment extends Fragment {
 
     public abstract int getLayout();
 
+    public abstract String getMessage();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         currentStep = 1;

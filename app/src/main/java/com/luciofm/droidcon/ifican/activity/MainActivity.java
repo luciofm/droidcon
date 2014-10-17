@@ -13,7 +13,11 @@ import com.luciofm.droidcon.ifican.fragment.BaseFragment;
 import com.luciofm.droidcon.ifican.fragment.HelloFragment;
 import com.luciofm.droidcon.ifican.fragment.IfICanFragment;
 import com.luciofm.droidcon.ifican.fragment.MyselfFragment;
+import com.luciofm.droidcon.ifican.fragment.WhyFragment;
 import com.luciofm.droidcon.ifican.fragment.WorkFragment;
+import com.luciofm.droidcon.ifican.util.MessageEvent;
+import com.luciofm.droidcon.ifican.util.RemoteEvent;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
@@ -36,6 +40,7 @@ public class MainActivity extends BaseActivity {
         fragments.add(MyselfFragment.class);
         fragments.add(WorkFragment.class);
         fragments.add(IfICanFragment.class);
+        fragments.add(WhyFragment.class);
         /*fragments.add(IfICanFragment.class);
         fragments.add(WhyFragment.class);
         fragments.add(SoftTransitionsFragment.class);
@@ -68,6 +73,18 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IfICan.getBusInstance().register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        IfICan.getBusInstance().unregister(this);
+    }
+
     public void nextFragment() {
         nextFragment(null);
     }
@@ -83,9 +100,9 @@ public class MainActivity extends BaseActivity {
     public void nextFragment(boolean backStack, Bundle args) {
         if (index == fragments.size())
             return;
-        Class<? extends Fragment> clazz = fragments.get(index++);
+        Class<? extends BaseFragment> clazz = fragments.get(index++);
         try {
-            Fragment f = clazz.newInstance();
+            BaseFragment f = clazz.newInstance();
             if (args != null)
                 f.setArguments(args);
             FragmentManager fm = getFragmentManager();
@@ -95,6 +112,10 @@ public class MainActivity extends BaseActivity {
             if (backStack)
                 ft.addToBackStack(null);
             ft.commit();
+
+            String message = f.getMessage();
+            if (message != null)
+                IfICan.getBusInstance().post(new MessageEvent(message));
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -133,5 +154,14 @@ public class MainActivity extends BaseActivity {
                 return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Subscribe
+    public void onRemoteEvent(RemoteEvent event) {
+        BaseFragment fragment = (BaseFragment) getFragmentManager().findFragmentByTag("current");
+        if (event.getType() == RemoteEvent.EVENT_BACK)
+            fragment.onPrevPressed();
+        else if (event.getType() == RemoteEvent.EVENT_ADVANCE)
+            fragment.onNextPressed();
     }
 }

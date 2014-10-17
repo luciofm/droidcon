@@ -1,7 +1,6 @@
 package com.luciofm.droidcon.ifican.fragment;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.graphics.Bitmap;
@@ -10,22 +9,24 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.transition.ChangeBounds;
-import android.transition.ChangeClipBounds;
-import android.transition.Fade;
-import android.transition.MoveImage;
+import android.transition.ChangeTransform;
+import android.transition.Scene;
+import android.transition.Slide;
+import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.transition.TransitionSet;
+import android.transition.TransitionValues;
+import android.transition.VisibilityPropagation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.luciofm.droidcon.ifican.R;
 import com.luciofm.droidcon.ifican.activity.MainActivity;
 import com.luciofm.droidcon.ifican.anim.AnimUtils;
-import com.luciofm.droidcon.ifican.util.Utils;
+import com.luciofm.droidcon.ifican.anim.XFractionProperty;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -40,17 +41,15 @@ public class MyselfFragment extends BaseFragment {
     @InjectView(R.id.container)
     ViewGroup container;
 
-    @InjectView(R.id.image)
     ImageView image;
 
-    @InjectView(R.id.text1)
-    TextView text1;
-    @InjectView(R.id.text2)
-    TextView text2;
-    @InjectView(R.id.text3)
-    TextView text3;
-
     Bitmap originalBitmap;
+
+    Scene scene1;
+    Scene scene2;
+    TransitionSet set;
+
+    BitmapDrawable drawable;
 
     public MyselfFragment() {
     }
@@ -60,6 +59,23 @@ public class MyselfFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
 
         originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.me);
+
+        set = new TransitionSet();
+        set.setOrdering(TransitionSet.ORDERING_TOGETHER);
+
+        Slide slide = new Slide();
+        slide.setPropagation(new VisibilityPropagation() {
+            long delay = 600;
+
+            @Override
+            public long getStartDelay(ViewGroup viewGroup, Transition transition,
+                                      TransitionValues transitionValues,
+                                      TransitionValues transitionValues2) {
+                delay -= 150;
+                return delay;
+            }
+        });
+        set.addTransition(new ChangeTransform()).addTransition(new ChangeBounds()).addTransition(slide);
     }
 
     @Override
@@ -68,26 +84,50 @@ public class MyselfFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public String getMessage() {
+        return "Introduce myself, coming from Brasil, developing Android full time since 2010, before that, low level system programming, Linux, C, Daemons, Kernel modules, etc.\n" +
+                "Contact information, bla bla";
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, final ViewGroup parent,
                              Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, container, savedInstanceState);
+        View v = super.onCreateView(inflater, parent, savedInstanceState);
         ButterKnife.inject(this, v);
         currentStep = 1;
 
-        v.postOnAnimationDelayed(new Runnable() {
+        scene1 = Scene.getSceneForLayout(container, R.layout.scene_myself_1, getActivity());
+        scene2 = Scene.getSceneForLayout(container, R.layout.scene_myself_2, getActivity());
+
+        scene1.setEnterAction(new Runnable() {
             @Override
             public void run() {
-                if (!isResumed())
-                    return;
+                image = (ImageView) container.findViewById(R.id.image);
+                container.postOnAnimationDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!isResumed())
+                            return;
 
-                image.setVisibility(View.VISIBLE);
-                image.animate().alpha(1f).setDuration(300);
-                ObjectAnimator pixelate = ObjectAnimator.ofInt(MyselfFragment.this, "pixelateFactor", 100, 0);
-                pixelate.setDuration(1200);
-                pixelate.setInterpolator(new DecelerateInterpolator());
-                pixelate.start();
+                        image = (ImageView) container.findViewById(R.id.image);
+                        image.animate().alpha(1f).setDuration(300);
+                        ObjectAnimator pixelate = ObjectAnimator.ofInt(MyselfFragment.this, "pixelateFactor", 100, 0);
+                        pixelate.setDuration(1200);
+                        pixelate.setInterpolator(new DecelerateInterpolator());
+                        pixelate.start();
+                    }
+                }, 600);
             }
-        }, 600);
+        });
+        scene2.setEnterAction(new Runnable() {
+            @Override
+            public void run() {
+                image = (ImageView) container.findViewById(R.id.image);
+                image.setImageDrawable(drawable);
+            }
+        });
+        scene1.enter();
+
         return v;
     }
 
@@ -95,30 +135,9 @@ public class MyselfFragment extends BaseFragment {
     public void onNextPressed() {
         switch (++currentStep) {
             case 2:
-                image.animate().scaleX(0.8f).scaleY(0.8f).setDuration(200).setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        text1.setVisibility(View.VISIBLE);
-                    }
-                });
+                TransitionManager.go(scene2, set);
                 break;
-            case 3:
-                image.animate().scaleX(0.7f).scaleY(0.7f).setDuration(200).setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        text2.setVisibility(View.VISIBLE);
-                    }
-                });
-                break;
-            case 4:
-                image.animate().scaleX(0.6f).scaleY(0.6f).setDuration(200).setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        text3.setVisibility(View.VISIBLE);
-                    }
-                });
-                break;
-            case 5:
+            default:
                 ((MainActivity) getActivity()).nextFragment();
         }
     }
@@ -126,6 +145,17 @@ public class MyselfFragment extends BaseFragment {
     @OnClick(R.id.container)
     public void onClick() {
         onNextPressed();
+    }
+
+    @Override
+    public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
+        if (transit == 0) {
+            return null;
+        }
+
+        //Target will be filled in by the framework
+        return enter ? ObjectAnimator.ofFloat(null, new XFractionProperty(), 1f, 0f) :
+               null;
     }
 
     final private static float PROGRESS_TO_PIXELIZATION_FACTOR = 1000.0f;
@@ -158,6 +188,7 @@ public class MyselfFragment extends BaseFragment {
         protected void onPostExecute(BitmapDrawable result) {
             if (isResumed() && result != null)
                 image.setImageDrawable(result);
+            drawable = result;
         }
     }
 }

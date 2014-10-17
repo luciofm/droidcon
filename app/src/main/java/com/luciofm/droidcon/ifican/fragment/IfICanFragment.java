@@ -2,6 +2,8 @@ package com.luciofm.droidcon.ifican.fragment;
 
 
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.luciofm.droidcon.ifican.R;
 import com.luciofm.droidcon.ifican.activity.MainActivity;
+import com.luciofm.droidcon.ifican.anim.YFractionProperty;
 import com.luciofm.droidcon.ifican.widget.TextView;
 
 import butterknife.ButterKnife;
@@ -29,6 +32,11 @@ public class IfICanFragment extends BaseFragment {
     @Override
     public int getLayout() {
         return R.layout.fragment_if_ican;
+    }
+
+    @Override
+    public String getMessage() {
+        return null;
     }
 
     @Override
@@ -52,5 +60,16 @@ public class IfICanFragment extends BaseFragment {
     @OnClick(R.id.container)
     public void onClick() {
         onNextPressed();
+    }
+
+    @Override
+    public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
+        if (transit == 0) {
+            return null;
+        }
+
+        //Target will be filled in by the framework
+        return enter ? ObjectAnimator.ofFloat(null, new YFractionProperty(), 1f, -0f) :
+                null;
     }
 }

@@ -1,0 +1,12 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_margin="4dp"
+        android:scaleType="fitXY"
+        android:alpha="0"
+        android:src="@drawable/me"
+        android:id="@+id/image"/>
+</merge>

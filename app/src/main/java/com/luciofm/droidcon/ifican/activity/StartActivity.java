@@ -12,9 +12,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.luciofm.droidcon.ifican.IfICan;
 import com.luciofm.droidcon.ifican.R;
 import com.luciofm.droidcon.ifican.bluetooth.BluetoothChatService;
 import com.luciofm.droidcon.ifican.model.PresenterMessage;
+import com.luciofm.droidcon.ifican.util.MessageEvent;
+import com.luciofm.droidcon.ifican.util.RemoteEvent;
+import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -66,6 +70,8 @@ public class StartActivity extends Activity {
         }
 
         handler.postDelayed(checkDiscoverableRunner, DISCOVERABLE_DELAY);
+
+        IfICan.getBusInstance().register(this);
     }
 
     private void ensureDiscoverable() {
@@ -118,6 +124,7 @@ public class StartActivity extends Activity {
         if (mChatService != null) mChatService.stop();
         handler.removeCallbacks(checkDiscoverableRunner);
         Log.d(TAG, "--- ON DESTROY ---");
+        IfICan.getBusInstance().unregister(this);
     }
 
     private void setupChat() {
@@ -202,7 +209,18 @@ public class StartActivity extends Activity {
     }
 
     private void postCommand(String method) {
+        RemoteEvent event = null;
 
+        if (method.contentEquals("prev"))
+            event = new RemoteEvent(RemoteEvent.EVENT_PREV);
+        else if (method.contentEquals("next"))
+            event = new RemoteEvent(RemoteEvent.EVENT_NEXT);
+        else if (method.contentEquals("back"))
+            event = new RemoteEvent(RemoteEvent.EVENT_BACK);
+        else if (method.contentEquals("advance"))
+            event = new RemoteEvent(RemoteEvent.EVENT_ADVANCE);
+
+        IfICan.getBusInstance().post(event);
     }
 
     private byte[] pongMessage() {
@@ -254,5 +272,17 @@ public class StartActivity extends Activity {
         startActivity(intent, options.toBundle());
 
         handler.removeCallbacks(checkDiscoverableRunner);
+    }
+
+    @Subscribe
+    public void onMessageEvent(MessageEvent event) {
+        sendMessage(event.getMessage());
+    }
+
+    private void sendMessage(String message) {
+        Gson gson = new Gson();
+
+        mChatService.write(gson.toJson(new PresenterMessage("text", message),
+                PresenterMessage.class).getBytes());
     }
 }

@@ -40,6 +40,7 @@
             android:textColor="@android:color/white"
             android:textStyle="bold"
             android:textAppearance="?android:textAppearanceLarge"
+            android:textSize="40sp"
             tools:text="Testing text"
             android:id="@+id/text"/>
         </ScrollView>
