@@ -20,8 +20,8 @@
     <dimen name="padding">16dp</dimen>
     <dimen name="padding_small">8dp</dimen>
 
-    <dimen name="floating_button_size">48dp</dimen>
+    <dimen name="floating_button_size">60dp</dimen>
 
-    <dimen name="button_elevation">2dp</dimen>
-    <dimen name="button_press_elevation">4dp</dimen>
+    <dimen name="button_elevation">1dp</dimen>
+    <dimen name="button_press_elevation">2dp</dimen>
 </resources>

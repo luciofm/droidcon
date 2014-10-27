@@ -3,23 +3,45 @@ package com.luciofm.droidcon.ifican.anim;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
+import android.os.Handler;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.transition.Transition;
 import android.transition.TransitionManager;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnticipateInterpolator;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
+import android.view.animation.OvershootInterpolator;
 
 /**
  * Created by luciofm on 5/25/14.
  */
 public class AnimUtils {
+
+    public static final int ANIM_MULTIPLIER = 1;
+    public static final int ANIM_DURATION = 300 * ANIM_MULTIPLIER;
+
+    public static Interpolator BOUNCE = new BounceInterpolator();
+    public static Interpolator OVERSHOOT = new OvershootInterpolator(2.8f);
+    public static Interpolator ANTICIPATE = new AnticipateInterpolator(2.8f);
+    public static Interpolator ACCELERATE = new AccelerateInterpolator();
+    public static Interpolator DECELERATE = new DecelerateInterpolator();
+    public static Interpolator ACCELDECEL = new AccelerateDecelerateInterpolator();
+
     private AnimUtils() {
     }
 
@@ -41,6 +63,12 @@ public class AnimUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             TransitionManager.beginDelayedTransition(container);
     }
+
+    public static void beginDelayedTransition(ViewGroup container, Transition set) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            TransitionManager.beginDelayedTransition(container, set);
+    }
+
 
     public static Animator createXTransition(View view, boolean enter) {
         ObjectAnimator x;
@@ -403,5 +431,68 @@ public class AnimUtils {
         }catch (Exception e) {
             return bmp;
         }
+    }
+
+    public static void popOutViewDelayed(final View view, long delay) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (view == null)
+                    return;
+
+                view.setVisibility(View.VISIBLE);
+                view.setScaleY(0f);
+                view.setScaleX(0f);
+
+                view.animate().scaleX(1f).scaleY(1f).setInterpolator(OVERSHOOT).setDuration(ANIM_DURATION);
+            }
+        }, delay);
+    }
+
+    public static void animateHeartBeat(View view) {
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1.1f);
+        scaleX.setInterpolator(ANTICIPATE);
+        scaleX.setRepeatCount(1);
+        scaleX.setRepeatMode(ValueAnimator.REVERSE);
+        scaleX.setDuration((long) (200));
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1.1f);
+        scaleY.setInterpolator(ANTICIPATE);
+        scaleY.setRepeatCount(1);
+        scaleY.setRepeatMode(ValueAnimator.REVERSE);
+        scaleY.setDuration((long) (200));
+
+        AnimatorSet set1 = new AnimatorSet();
+        set1.playTogether(scaleX, scaleY);
+
+        AnimatorSet set2 = new AnimatorSet();
+        set2.playTogether(scaleX, scaleY);
+
+        AnimatorSet animSet = new AnimatorSet();
+        animSet.playSequentially(set1, set2);
+        animSet.start();
+    }
+
+    public static View.OnTouchListener setupResizeTouchListener(View v) {
+        View.OnTouchListener touchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.animate().setInterpolator(OVERSHOOT)
+                            .scaleX(.85f).scaleY(.85f)
+                            .setStartDelay(0).setDuration(ANIM_DURATION)
+                            .setListener(null);
+                } else if (event.getAction() == MotionEvent.ACTION_UP ||
+                        event.getAction() == MotionEvent.ACTION_CANCEL ||
+                        event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+                    v.animate().setInterpolator(OVERSHOOT)
+                            .scaleX(1f).scaleY(1f)
+                            .setStartDelay(0).setDuration(ANIM_DURATION)
+                            .setListener(null);
+                }
+                return false;
+            }
+        };
+        v.setOnTouchListener(touchListener);
+        return touchListener;
     }
 }

@@ -50,9 +50,9 @@ public class WorkFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, container, savedInstanceState);
+        View v = super.onCreateView(inflater, parent, savedInstanceState);
         ButterKnife.inject(this, v);
 
         imageMuambator1.animate().alpha(1f).setDuration(200).start();

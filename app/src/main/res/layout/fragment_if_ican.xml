@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/green_primary"
+    android:background="@color/grey_light"
     android:animateLayoutChanges="true"
     android:gravity="center"
     android:id="@+id/container"
@@ -22,7 +22,7 @@
         android:layout_gravity="center_horizontal|top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/blue_light_background"
+        android:textColor="@color/grey_dark"
         style="@style/TextShadow"
         app:typeFace="YanoneKaffeesatz-Regular.ttf"/>
 
@@ -36,9 +36,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:textColor="@color/blue_light"
-        android:background="@color/yellow_primary_dark"
-
+        android:textColor="@color/grey_light"
+        android:background="@color/pink"
         android:visibility="gone"
+        tools:visibility="visible"
         app:typeFace="YanoneKaffeesatz-Regular.ttf" />
 </LinearLayout>

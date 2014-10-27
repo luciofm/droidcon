@@ -3,11 +3,14 @@ package com.luciofm.droidcon.ifican.activity;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.display.DisplayManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Toast;
 

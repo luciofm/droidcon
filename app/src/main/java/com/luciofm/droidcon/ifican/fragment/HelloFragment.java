@@ -35,8 +35,8 @@ public class HelloFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, container, savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, parent, savedInstanceState);
         ButterKnife.inject(this, v);
         currentStep = 1;
         return v;

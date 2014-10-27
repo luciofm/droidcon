@@ -1,27 +1,32 @@
 <resources>
 
     <!-- Base application theme. -->
-    <!--<style name="AppTheme" parent="android:Theme.Material.Light">
-        <item name="android:colorPrimary">@color/blue_primary</item>
-        <item name="android:colorPrimaryDark">@color/blue_primary_dark</item>
-        <item name="android:colorAccent">@color/green_primary</item>
-        <item name="android:colorControlHighlight">@color/blue_light</item>-->
+    <style name="AppTheme" parent="android:Theme.Material.Light">
+        <item name="android:colorPrimary">@color/grey_light</item>
+        <item name="android:colorPrimaryDark">@color/grey_dark</item>
+        <item name="android:colorAccent">#ff6699</item>
+        <item name="android:colorControlHighlight">@color/pink_light</item>
 
-    <style name="AppTheme" parent="android:Theme.Holo.Light">
+        <item name="android:textColorPrimary">@color/grey_light</item>
+
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowTranslucentNavigation">true</item>
 
-        <item name="android:windowBackground">@color/blue_primary</item>
+        <item name="android:windowBackground">@color/grey_light</item>
     </style>
 
     <style name="TextShadow">
-        <item name="android:shadowColor">@color/soft_black</item>
+        <item name="android:shadowColor">@color/grey_light</item>
         <item name="android:shadowDy">2</item>
         <item name="android:shadowDx">2</item>
         <item name="android:shadowRadius">1.5</item>
+    </style>
+
+    <style name="TextShadow.Dark">
+        <item name="android:shadowColor">@color/grey</item>
     </style>
 
     <style name="BaseTextCode">
@@ -34,7 +39,7 @@
     </style>
 
     <style name="TextCode" parent="BaseTextCode">
-        <item name="android:background">@color/gray</item>
+        <item name="android:background">@color/grey</item>
         <!--<item name="android:elevation">4dp</item>-->
     </style>
 

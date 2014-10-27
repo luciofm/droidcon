@@ -1,6 +1,6 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:layout_width="300dp"
@@ -15,11 +15,11 @@
     <com.luciofm.droidcon.ifican.widget.TextView
         android:id="@+id/text1"
         android:gravity="center"
-        android:textSize="@dimen/text_title"
+        android:textSize="@dimen/text_title_big"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/yellow_primary_dark"
+        android:textColor="@color/grey_light"
         android:layout_marginTop="-60dp"
         android:layout_marginBottom="4dp"
         android:text="Lúcio Maciel"
@@ -27,23 +27,23 @@
     <com.luciofm.droidcon.ifican.widget.TextView
         android:id="@+id/text2"
         android:gravity="center"
-        android:textSize="@dimen/text_title"
+        android:textSize="@dimen/text_title_big"
         android:layout_margin="4dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/yellow_primary_dark"
+        android:textColor="@color/grey_light"
         android:text="\@luciofm"
         app:typeFace="YanoneKaffeesatz-Bold.ttf" />
     <com.luciofm.droidcon.ifican.widget.TextView
         android:gravity="center"
-        android:textSize="@dimen/text_title"
+        android:textSize="@dimen/text_title_big"
         android:layout_margin="4dp"
         android:id="@+id/text3"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/yellow_primary_dark"
+        android:textColor="@color/grey_light"
         android:text="github.com/luciofm"
         app:typeFace="YanoneKaffeesatz-Bold.ttf" />
 </merge>

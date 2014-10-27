@@ -6,13 +6,17 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.WindowManager;
 
 import com.luciofm.droidcon.ifican.IfICan;
 import com.luciofm.droidcon.ifican.R;
 import com.luciofm.droidcon.ifican.fragment.BaseFragment;
+import com.luciofm.droidcon.ifican.fragment.CallAtentionFragment;
 import com.luciofm.droidcon.ifican.fragment.HelloFragment;
 import com.luciofm.droidcon.ifican.fragment.IfICanFragment;
+import com.luciofm.droidcon.ifican.fragment.MorphingButtonCodeFragment;
 import com.luciofm.droidcon.ifican.fragment.MyselfFragment;
+import com.luciofm.droidcon.ifican.fragment.SmoothStateChangeFragment;
 import com.luciofm.droidcon.ifican.fragment.WhyFragment;
 import com.luciofm.droidcon.ifican.fragment.WorkFragment;
 import com.luciofm.droidcon.ifican.util.MessageEvent;
@@ -34,13 +38,22 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         ButterKnife.inject(this);
 
-        fragments.add(HelloFragment.class);
+        /*fragments.add(HelloFragment.class);
         fragments.add(MyselfFragment.class);
         fragments.add(WorkFragment.class);
         fragments.add(IfICanFragment.class);
-        fragments.add(WhyFragment.class);
+        fragments.add(WhyFragment.class);*/
+        fragments.add(SmoothStateChangeFragment.class);
+        fragments.add(CallAtentionFragment.class);
+
+        fragments.add(MorphingButtonCodeFragment.class);
+
+
         /*fragments.add(IfICanFragment.class);
         fragments.add(WhyFragment.class);
         fragments.add(SoftTransitionsFragment.class);

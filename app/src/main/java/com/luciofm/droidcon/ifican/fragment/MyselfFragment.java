@@ -5,18 +5,22 @@ import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.transition.ChangeBounds;
 import android.transition.ChangeTransform;
+import android.transition.CircularPropagation;
 import android.transition.Scene;
+import android.transition.SidePropagation;
 import android.transition.Slide;
 import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.transition.TransitionSet;
 import android.transition.TransitionValues;
 import android.transition.VisibilityPropagation;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,15 +68,21 @@ public class MyselfFragment extends BaseFragment {
         set.setOrdering(TransitionSet.ORDERING_TOGETHER);
 
         Slide slide = new Slide();
-        slide.setPropagation(new VisibilityPropagation() {
-            long delay = 600;
-
+        slide.setSlideEdge(Gravity.LEFT);
+        slide.setPropagation(new CircularPropagation() {
             @Override
-            public long getStartDelay(ViewGroup viewGroup, Transition transition,
-                                      TransitionValues transitionValues,
-                                      TransitionValues transitionValues2) {
-                delay -= 150;
-                return delay;
+            public long getStartDelay(ViewGroup sceneRoot, Transition transition, TransitionValues startValues, TransitionValues endValues) {
+                long delay = super.getStartDelay(sceneRoot, transition, startValues, endValues);
+                return delay * 8;
+            }
+        });
+        slide.setEpicenterCallback(new Transition.EpicenterCallback() {
+            @Override
+            public Rect onGetEpicenter(Transition transition) {
+                int[] loc = new int[2];
+                container.getLocationOnScreen(loc);
+
+                return new Rect((container.getWidth() / 2) - 40, loc[1], (container.getWidth() / 2) + 40, loc[1] + 40);
             }
         });
         set.addTransition(new ChangeTransform()).addTransition(new ChangeBounds()).addTransition(slide);

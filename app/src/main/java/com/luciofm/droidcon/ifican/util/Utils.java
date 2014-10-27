@@ -21,6 +21,11 @@ public class Utils {
     private Utils() {
     }
 
+    public static float pixelsToSp(Context context, float px) {
+        float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
+        return px/scaledDensity;
+    }
+
     public static void startGif(GifImageView view) {
         GifDrawable drawable = (GifDrawable) view.getDrawable();
         if (!drawable.isPlaying()) {

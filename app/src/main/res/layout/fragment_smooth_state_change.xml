@@ -1,0 +1,56 @@
+ <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_light"
+    android:orientation="vertical"
+    android:animateLayoutChanges="true"
+    android:gravity="center"
+    android:id="@+id/container"
+    android:clickable="true"
+    tools:context="com.luciofm.droidcon.ifican.fragment.WhyFragment">
+
+    <com.luciofm.droidcon.ifican.widget.TextView
+        android:id="@+id/text1"
+        android:text="Smooth state changes"
+        android:padding="@dimen/padding_big"
+        android:textSize="@dimen/text_title_big"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey_dark"
+        style="@style/TextShadow.Dark"
+        app:typeFace="YanoneKaffeesatz-Regular.ttf"/>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="0dp"
+         android:layout_margin="4dp"
+         android:id="@+id/container2"
+         android:orientation="horizontal"
+         android:visibility="gone"
+         tools:visibility="visible"
+         android:gravity="center"
+         android:animateLayoutChanges="true"
+         android:layout_weight="1">
+
+         <pl.droidsonroids.gif.GifImageView
+             android:layout_width="400dp"
+             android:layout_height="match_parent"
+             android:src="@drawable/smooth_state_1"
+             android:layout_marginRight="16dp"
+             android:visibility="gone"
+             tools:visibility="visible"
+             android:id="@+id/gif1"/>
+
+         <pl.droidsonroids.gif.GifImageView
+             android:layout_width="400dp"
+             android:layout_height="match_parent"
+             android:layout_marginLeft="16dp"
+             android:visibility="gone"
+             tools:visibility="visible"
+             android:src="@drawable/smooth_state_2"
+             android:id="@+id/gif2"/>
+     </LinearLayout>
+</LinearLayout>

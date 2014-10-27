@@ -26,9 +26,9 @@ public abstract class BaseFragment extends Fragment {
     public abstract String getMessage();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         currentStep = 1;
-        return inflater.inflate(getLayout(), container, false);
+        return inflater.inflate(getLayout(), parent, false);
     }
 
     @Override

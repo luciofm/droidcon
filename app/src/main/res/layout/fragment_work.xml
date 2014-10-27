@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/container"
-    android:background="@color/green_light_background"
+    android:background="@color/pink_light"
     tools:context="com.luciofm.droidcon.ifican.fragment.WorkFragment">
 
     <LinearLayout
@@ -13,26 +13,6 @@
         android:animateLayoutChanges="true"
         android:gravity="center"
         android:id="@+id/container2">
-
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageMuambator1"
-                android:src="@drawable/muambator_old_blur"
-                android:alpha="0"
-                android:layout_gravity="center"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageMuambator2"
-                android:alpha="0"
-                android:src="@drawable/muambator_old"
-                android:layout_gravity="center"/>
-        </FrameLayout>
 
         <FrameLayout
             android:layout_width="0dp"
@@ -52,6 +32,27 @@
                 android:id="@+id/imageWhi2"
                 android:src="@drawable/whi"
                 android:alpha="0"
+                tools:alpha="1"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageMuambator1"
+                android:src="@drawable/muambator_old_blur"
+                android:alpha="0"
+                android:layout_gravity="center"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageMuambator2"
+                android:alpha="0"
+                android:src="@drawable/muambator_old"
                 android:layout_gravity="center"/>
         </FrameLayout>
 

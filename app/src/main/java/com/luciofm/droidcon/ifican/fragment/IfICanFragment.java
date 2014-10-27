@@ -40,8 +40,8 @@ public class IfICanFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, container, savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, parent, savedInstanceState);
         ButterKnife.inject(this, v);
         currentStep = 1;
         return v;
@@ -70,6 +70,6 @@ public class IfICanFragment extends BaseFragment {
 
         //Target will be filled in by the framework
         return enter ? ObjectAnimator.ofFloat(null, new YFractionProperty(), 1f, -0f) :
-                null;
+                ObjectAnimator.ofFloat(null, new YFractionProperty(), 0f, -1f);
     }
 }

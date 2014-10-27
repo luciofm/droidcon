@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/container"
-    android:background="@color/blue_light"
+    android:background="@color/grey_dark"
     android:orientation="vertical"
     android:gravity="center"
     tools:context="com.luciofm.droidcon.ifican.fragment.MyselfFragment" />
