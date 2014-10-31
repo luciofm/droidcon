@@ -3,14 +3,9 @@ package com.luciofm.droidcon.ifican.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.graphics.Outline;
 import android.os.Bundle;
 import android.os.Handler;
-import android.transition.ChangeBounds;
-import android.transition.Fade;
-import android.transition.TransitionManager;
-import android.transition.TransitionSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -20,9 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.luciofm.droidcon.ifican.R;
-import com.luciofm.droidcon.ifican.activity.MainActivity;
 import com.luciofm.droidcon.ifican.anim.AnimUtils;
-import com.luciofm.droidcon.ifican.anim.TextTransform;
 import com.luciofm.droidcon.ifican.anim.XFractionProperty;
 import com.luciofm.droidcon.ifican.util.Utils;
 
@@ -82,9 +75,12 @@ public class CallAtentionFragment extends BaseFragment {
         setOutlines(info);
         AnimUtils.setupResizeTouchListener(info);
 
-        AnimUtils.popOutViewDelayed(info, 1200);
+        AnimUtils.popOutViewDelayed(info, 5000);
         handler.removeCallbacks(heartbeatRunnable);
         handler.postDelayed(heartbeatRunnable, HEARTBEAT_ANIM_DELAY);
+
+        Utils.stopGif(gif1, gif2, gif3);
+        Utils.resetGif(gif1, gif2, gif3);
 
         return v;
     }
@@ -128,16 +124,17 @@ public class CallAtentionFragment extends BaseFragment {
                 container2.setLayoutParams(params);
 
                 container3.setVisibility(View.VISIBLE);
+                Utils.startGifDelayed(gif1, 600);
                 break;
             case 4:
                 gif2.setVisibility(View.VISIBLE);
                 Utils.stopGif(gif1);
-                Utils.startGif(gif2);
+                Utils.startGifDelayed(gif2);
                 break;
             case 5:
                 gif3.setVisibility(View.VISIBLE);
                 Utils.stopGif(gif2);
-                Utils.startGif(gif3);
+                Utils.startGifDelayed(gif3);
                 break;
             default:
                 super.onNextPressed();

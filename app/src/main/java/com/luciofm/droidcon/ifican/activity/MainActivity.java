@@ -10,13 +10,24 @@ import android.view.WindowManager;
 
 import com.luciofm.droidcon.ifican.IfICan;
 import com.luciofm.droidcon.ifican.R;
+import com.luciofm.droidcon.ifican.fragment.ActivityLTransitionsCodeFragment;
+import com.luciofm.droidcon.ifican.fragment.ActivityTransitionsCodeFragment;
 import com.luciofm.droidcon.ifican.fragment.BaseFragment;
 import com.luciofm.droidcon.ifican.fragment.CallAtentionFragment;
+import com.luciofm.droidcon.ifican.fragment.CodeFragment;
+import com.luciofm.droidcon.ifican.fragment.CustomTransitionsCodeFragment;
+import com.luciofm.droidcon.ifican.fragment.FeedbackFragment;
+import com.luciofm.droidcon.ifican.fragment.GuideUserFragment;
 import com.luciofm.droidcon.ifican.fragment.HelloFragment;
 import com.luciofm.droidcon.ifican.fragment.IfICanFragment;
+import com.luciofm.droidcon.ifican.fragment.LayoutTransitionsCodeFragment;
+import com.luciofm.droidcon.ifican.fragment.MinSdkFragment;
 import com.luciofm.droidcon.ifican.fragment.MorphingButtonCodeFragment;
 import com.luciofm.droidcon.ifican.fragment.MyselfFragment;
+import com.luciofm.droidcon.ifican.fragment.QuestionsFragment;
 import com.luciofm.droidcon.ifican.fragment.SmoothStateChangeFragment;
+import com.luciofm.droidcon.ifican.fragment.TheEndFragment;
+import com.luciofm.droidcon.ifican.fragment.TouchFeedbackCodeFragment;
 import com.luciofm.droidcon.ifican.fragment.WhyFragment;
 import com.luciofm.droidcon.ifican.fragment.WorkFragment;
 import com.luciofm.droidcon.ifican.util.MessageEvent;
@@ -43,16 +54,30 @@ public class MainActivity extends BaseActivity {
 
         ButterKnife.inject(this);
 
-        /*fragments.add(HelloFragment.class);
+        fragments.add(HelloFragment.class);
         fragments.add(MyselfFragment.class);
         fragments.add(WorkFragment.class);
         fragments.add(IfICanFragment.class);
-        fragments.add(WhyFragment.class);*/
+        fragments.add(WhyFragment.class);
         fragments.add(SmoothStateChangeFragment.class);
         fragments.add(CallAtentionFragment.class);
+        fragments.add(GuideUserFragment.class);
+        fragments.add(FeedbackFragment.class);
+        fragments.add(CodeFragment.class);
+
+        fragments.add(LayoutTransitionsCodeFragment.class);
+        fragments.add(TouchFeedbackCodeFragment.class);
+
+        fragments.add(ActivityTransitionsCodeFragment.class);
+        fragments.add(ActivityLTransitionsCodeFragment.class);
 
         fragments.add(MorphingButtonCodeFragment.class);
+        fragments.add(CustomTransitionsCodeFragment.class);
 
+        fragments.add(QuestionsFragment.class);
+
+        fragments.add(TheEndFragment.class);
+        fragments.add(MinSdkFragment.class);
 
         /*fragments.add(IfICanFragment.class);
         fragments.add(WhyFragment.class);

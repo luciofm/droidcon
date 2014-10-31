@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="Generator" content="Vim/7.3">
+<meta name="plugin-version" content="vim7.3_v6">
+<meta name="syntax" content="java">
+<meta name="settings" content="no_pre">
+</head>
+<body bgcolor="#000000" text="#ffffff">
+<font face="monospace">
+&nbsp;&nbsp;<font color="#00ffff"><b>// onAppear...</b></font><br>
+&nbsp;&nbsp;view.setScaleX(<font color="#ff40ff"><b>0f</b></font>);<br>
+&nbsp;&nbsp;view.setScaleY(<font color="#ff40ff"><b>0f</b></font>);<br>
+<br>
+&nbsp;&nbsp;PropertyValuesHolder[]&nbsp;pvh =&nbsp;<font color="#ffff00"><b>new</b></font>&nbsp;PropertyValuesHolder[<font color="#ff40ff"><b>2</b></font>];<br>
+&nbsp;&nbsp;pvh[<font color="#ff40ff"><b>0</b></font>]&nbsp;= PropertyValuesHolder.ofFloat(View.SCALE_X,&nbsp;<font color="#ff40ff"><b>1f</b></font>);<br>
+&nbsp;&nbsp;pvh[<font color="#ff40ff"><b>1</b></font>]&nbsp;= PropertyValuesHolder.ofFloat(View.SCALE_Y,&nbsp;<font color="#ff40ff"><b>1f</b></font>);<br>
+<br>
+&nbsp;&nbsp;ObjectAnimator anim = ObjectAnimator.ofPropertyValuesHolder(view, pvh);<br>
+&nbsp;&nbsp;anim.setInterpolator(<font color="#ffff00"><b>new</b></font>&nbsp;OvershootInterpolator());<br>
+<br>
+&nbsp;&nbsp;<font color="#ffff00"><b>return</b></font>&nbsp;anim;<br>
+</font>
+</body>
+</html>

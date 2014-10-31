@@ -11,7 +11,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -67,6 +66,10 @@ public class SmoothStateChangeFragment extends BaseFragment {
 
         grey_light = getResources().getColor(R.color.grey_light);
         pink = getResources().getColor(R.color.pink);
+
+        Utils.stopGif(gif1, gif2);
+        Utils.resetGif(gif1, gif2);
+
         return v;
     }
 
@@ -96,12 +99,15 @@ public class SmoothStateChangeFragment extends BaseFragment {
             case 3:
                 container2.setVisibility(View.VISIBLE);
                 gif1.setVisibility(View.VISIBLE);
-                Utils.startGif(gif1);
+                Utils.startGifDelayed(gif1);
                 break;
             case 4:
                 gif2.setVisibility(View.VISIBLE);
                 Utils.stopGif(gif1);
-                Utils.startGif(gif2);
+                Utils.startGifDelayed(gif2);
+                break;
+            case 5:
+                Utils.startGif(gif1);
                 break;
             default:
                 super.onNextPressed();
@@ -121,7 +127,7 @@ public class SmoothStateChangeFragment extends BaseFragment {
                     break;
                 case 3:
                     Utils.stopGif(gif2);
-                    Utils.startGif(gif1);
+                    Utils.startGifDelayed(gif1);
                     gif2.setVisibility(View.GONE);
             }
             return;

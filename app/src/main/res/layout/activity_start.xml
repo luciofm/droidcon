@@ -21,12 +21,28 @@
         style="@style/TextShadow"
         app:typeFace="YanoneKaffeesatz-Regular.ttf"/>
 
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/input_ip"/>
+
+    <Button
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="connect"
+        android:textColor="@color/pink"
+        android:background="@drawable/ripple_with_background"
+        android:id="@+id/button_connect"/>
+
     <Button
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="start"
-        android:textColor="@color/grey_light"
-        android:background="@drawable/ripple_press"
+        android:textColor="@color/pink"
+        android:background="@drawable/ripple_with_background"
         android:id="@+id/button_start"/>
+
+
 </LinearLayout>

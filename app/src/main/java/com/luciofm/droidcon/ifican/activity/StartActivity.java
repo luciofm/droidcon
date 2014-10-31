@@ -5,15 +5,23 @@ import android.app.ActivityOptions;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.display.DisplayManager;
+import android.net.DhcpInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.StrictMode;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.Server;
 import com.google.gson.Gson;
 import com.luciofm.droidcon.ifican.IfICan;
 import com.luciofm.droidcon.ifican.R;
@@ -22,6 +30,8 @@ import com.luciofm.droidcon.ifican.model.PresenterMessage;
 import com.luciofm.droidcon.ifican.util.MessageEvent;
 import com.luciofm.droidcon.ifican.util.RemoteEvent;
 import com.squareup.otto.Subscribe;
+
+import java.io.IOException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -38,8 +48,18 @@ public class StartActivity extends Activity {
     private static final long DISCOVERABLE_DELAY = 60000;
     Handler handler = new Handler();
 
+    private Client mClient;
+    private Connection mConnection;
+
+    @InjectView(R.id.input_ip)
+    EditText inputIp;
+    @InjectView(R.id.button_connect)
+    Button buttonConnect;
+
     @InjectView(R.id.button_start)
     View button_start;
+    private WifiManager wifi;
+    private DhcpInfo dhcpInfo;
 
     @Override
     public void onStart() {
@@ -55,6 +75,49 @@ public class StartActivity extends Activity {
         } else {
             if (mChatService == null) setupChat();
         }
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        mClient = new Client();
+        Kryo kryo = mClient.getKryo();
+        kryo.register(PresenterMessage.class);
+
+        mClient.start();
+
+        mClient.addListener(new Listener() {
+            @Override
+            public void connected(Connection connection) {
+                super.connected(connection);
+
+                mConnection = connection;
+
+                Log.d(TAG, "Connected: TCP");
+                sendTcpConnectedMessage();
+                buttonStartClick(button_start);
+            }
+
+            @Override
+            public void received(Connection connection, Object object) {
+                super.received(connection, object);
+
+                if (object instanceof PresenterMessage)
+                    parseTcpMessage((PresenterMessage) object);
+            }
+        });
+
+        wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        dhcpInfo = wifi.getDhcpInfo();
+
+        inputIp.setText(intToIp(dhcpInfo.gateway));
+    }
+
+    public String intToIp(int i) {
+
+        return ((i >> 24 ) & 0xFF ) + "." +
+                ((i >> 16 ) & 0xFF) + "." +
+                ((i >> 8 ) & 0xFF) + "." +
+                ( i & 0xFF) ;
     }
 
     @Override
@@ -72,7 +135,7 @@ public class StartActivity extends Activity {
             return;
         }
 
-        handler.postDelayed(checkDiscoverableRunner, DISCOVERABLE_DELAY);
+        //handler.postDelayed(checkDiscoverableRunner, DISCOVERABLE_DELAY);
 
         IfICan.getBusInstance().register(this);
     }
@@ -151,7 +214,7 @@ public class StartActivity extends Activity {
                             Log.d(TAG, "Connected: " + mConnectedDeviceName);
                             sendConnectedMessage();
                             buttonStartClick(button_start);
-                            handler.postDelayed(checkDiscoverableRunner, DISCOVERABLE_DELAY);
+                            //handler.postDelayed(checkDiscoverableRunner, DISCOVERABLE_DELAY);
                             break;
                         case BluetoothChatService.STATE_CONNECTING:
                             Log.d(TAG, "Connecting");
@@ -159,7 +222,7 @@ public class StartActivity extends Activity {
                         case BluetoothChatService.STATE_LISTEN:
                         case BluetoothChatService.STATE_NONE:
                             Log.d(TAG, "Idle");
-                            ensureDiscoverable();
+                            //ensureDiscoverable();
                             break;
                     }
                     break;
@@ -257,7 +320,7 @@ public class StartActivity extends Activity {
         @Override
         public void run() {
             if (mChatService.getState() == BluetoothChatService.STATE_LISTEN ||
-                mChatService.getState() == BluetoothChatService.STATE_NONE) {
+                    mChatService.getState() == BluetoothChatService.STATE_NONE) {
                 ensureDiscoverable();
             }
 
@@ -277,6 +340,15 @@ public class StartActivity extends Activity {
         handler.removeCallbacks(checkDiscoverableRunner);
     }
 
+    @OnClick(R.id.button_connect)
+    public void onConnectClicked() {
+        try {
+            mClient.connect(15, inputIp.getText().toString(), 8080);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Subscribe
     public void onMessageEvent(MessageEvent event) {
         sendMessage(event.getMessage());
@@ -287,5 +359,28 @@ public class StartActivity extends Activity {
 
         mChatService.write(gson.toJson(new PresenterMessage("text", message),
                 PresenterMessage.class).getBytes());
+    }
+
+    private void sendTcpConnectedMessage() {
+        if (mConnection != null)
+            mConnection.sendTCP(new PresenterMessage("text", "Connected..."));
+    }
+
+    private void parseTcpMessage(PresenterMessage msg) {
+        Gson gson = new Gson();
+
+        String method = msg.getMethod();
+        if (method.contentEquals("ping"))
+            pongTcpMessage();
+        else if (method.contentEquals("pong"))
+            Toast.makeText(this, "PONG", Toast.LENGTH_SHORT).show();
+        else {
+            postCommand(method);
+        }
+    }
+
+    private void pongTcpMessage() {
+        if (mConnection != null)
+            mConnection.sendTCP(new PresenterMessage("pong"));
     }
 }

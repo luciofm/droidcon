@@ -7,18 +7,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.StrictMode;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.Server;
 import com.google.gson.Gson;
 import com.luciofm.presenter.bluetooth.BluetoothChatService;
 import com.luciofm.presenter.bluetooth.DeviceListActivity;
 import com.luciofm.presenter.model.PresenterMessage;
+
+import java.io.IOException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -34,8 +43,13 @@ public class MainActivity extends Activity {
 
     private StringBuffer mOutStringBuffer;
 
+    private Server mServer;
+    private Connection mConnection;
+
     @InjectView(R.id.text)
     TextView text;
+    @InjectView(R.id.chronometer)
+    Chronometer chronometer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +66,29 @@ public class MainActivity extends Activity {
         }
 
         ButterKnife.inject(this);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        mServer = new Server();
+        Kryo kryo = new Kryo();
+        kryo.register(PresenterMessage.class);
+
+        mServer.addListener(new Listener() {
+            @Override
+            public void connected(Connection connection) {
+                super.connected(connection);
+                mConnection = connection;
+                Toast.makeText(MainActivity.this, "Connected...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mServer.start();
+        try {
+            mServer.bind(8080);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -128,18 +165,16 @@ public class MainActivity extends Activity {
                     Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
                     switch (msg.arg1) {
                         case BluetoothChatService.STATE_CONNECTED:
-                            /*setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
-                            mConversationArrayAdapter.clear();*/
                             getActionBar().setTitle(mConnectedDeviceName);
+                            chronometer.setBase(SystemClock.elapsedRealtime());
+                            chronometer.start();
                             break;
                         case BluetoothChatService.STATE_CONNECTING:
                             getActionBar().setTitle("Connecting");
-                            //setStatus(R.string.title_connecting);
                             break;
                         case BluetoothChatService.STATE_LISTEN:
                         case BluetoothChatService.STATE_NONE:
                             getActionBar().setTitle("Idle");
-                            //setStatus(R.string.title_not_connected);
                             break;
                     }
                     break;
@@ -291,4 +326,35 @@ public class MainActivity extends Activity {
 
         sendCommand(command);
     }
+
+    /*public void showConnectTcpDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("Title");
+        alert.setMessage("Message");
+
+// Set an EditText view to get user input
+        final EditText input = new EditText(this);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String value = input.getText().toString();
+
+                try {
+                    mServer.connect(15, value, 8080);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+
+        alert.show();
+    }*/
 }

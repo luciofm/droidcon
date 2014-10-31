@@ -1,0 +1,110 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/grey_light"
+    android:animateLayoutChanges="true"
+    android:gravity="center"
+    android:id="@+id/container"
+    android:clickable="true"
+    tools:context="com.luciofm.ifican.app.ui.TouchFeedbackCodeFragment">
+
+    <com.luciofm.droidcon.ifican.widget.TextView
+        android:id="@+id/text1"
+        android:text="Touch Feedback"
+        android:padding="20dp"
+        android:gravity="center"
+        android:textSize="80sp"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey_light"
+        android:background="@color/pink"
+        android:elevation="4dp"
+        app:typeFace="YanoneKaffeesatz-Regular.ttf"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:animateLayoutChanges="true"
+        android:layout_margin="@dimen/padding"
+        android:id="@+id/container2"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:showDividers="middle"
+        android:dividerPadding="2dp"
+        android:gravity="center">
+
+        <com.luciofm.droidcon.ifican.widget.TextView
+            android:id="@+id/text2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="220dp"
+            android:textColor="@color/grey_light"
+            android:padding="20dp"
+            android:layout_margin="4dp"
+            android:textSize="@dimen/text_title_small"
+            android:gravity="center"
+            android:clickable="true"
+            android:background="@drawable/button_selector"
+            android:text="TOUCH ME!!!"/>
+
+        <com.luciofm.droidcon.ifican.widget.TextView
+            android:id="@+id/text3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="220dp"
+            android:textColor="@color/grey_light"
+            android:padding="20dp"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:textSize="@dimen/text_title_small"
+            android:gravity="center"
+            android:background="@drawable/button_selector_anim"
+            android:text="TOUCH ME!!!\nsoftly"/>
+
+        <com.luciofm.droidcon.ifican.widget.TextView
+            android:id="@+id/text4"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="220dp"
+            android:textColor="@color/grey_light"
+            android:padding="20dp"
+            android:layout_margin="4dp"
+            android:clickable="true"
+            android:textSize="@dimen/text_title_small"
+            android:gravity="center"
+            android:background="@drawable/ripple_with_dark_background"
+            android:text="TOUCH ME!!!\nripple"/>
+    </LinearLayout>
+
+    <TextSwitcher
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/padding_big"
+        android:visibility="gone"
+        tools:visibility="gone"
+        android:id="@+id/textSwitcher">
+        <TextView
+            android:layout_centerInParent="true"
+            android:textSize="24sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/padding_small"
+            android:textColor="@android:color/white"
+            android:fontFamily="monospace"
+            android:background="@color/soft_black"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+        <TextView
+            android:layout_centerInParent="true"
+            style="@style/TextCode"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+    </TextSwitcher>
+</LinearLayout>

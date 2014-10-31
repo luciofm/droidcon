@@ -24,4 +24,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:5.+'
     compile 'commons-io:commons-io:2.4'
     compile 'com.google.code.gson:gson:2.+'
+    compile 'com.esotericsoftware:kryonet:2.22.0-RC1'
 }

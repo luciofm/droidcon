@@ -1,6 +1,8 @@
 package com.luciofm.droidcon.ifican.fragment;
 
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.graphics.Rect;
 import android.os.Build;
@@ -23,7 +25,9 @@ import android.widget.TextView;
 import com.luciofm.droidcon.ifican.R;
 import com.luciofm.droidcon.ifican.anim.AnimUtils;
 import com.luciofm.droidcon.ifican.anim.Pop;
+import com.luciofm.droidcon.ifican.anim.YFractionProperty;
 import com.luciofm.droidcon.ifican.util.IOUtils;
+import com.luciofm.droidcon.ifican.util.Utils;
 
 import java.util.List;
 
@@ -85,9 +89,9 @@ public class MorphingButtonCodeFragment extends BaseFragment {
         ButterKnife.inject(this, v);
 
         code1 = Html.fromHtml(IOUtils.readFile(getActivity(), "source/morph.xml.html"));
-        code2 = Html.fromHtml(IOUtils.readFile(getActivity(), "source/tm.java.html"));
-        text2.setInAnimation(getActivity(), android.R.anim.fade_in);
-        text2.setOutAnimation(getActivity(), android.R.anim.fade_out);
+        code2 = Html.fromHtml(IOUtils.readFile(getActivity(), "source/delayed.java.html"));
+        text2.setInAnimation(getActivity(), android.R.anim.slide_in_left);
+        text2.setOutAnimation(getActivity(), android.R.anim.slide_out_right);
         text2.setText(code1);
 
         currentStep = 1;
@@ -103,25 +107,27 @@ public class MorphingButtonCodeFragment extends BaseFragment {
                 AnimUtils.beginDelayedTransition(root);
                 container2.setVisibility(View.VISIBLE);
                 break;
-            /*case 3:
-                Utils.dispatchTouch(login_container);
+            case 3:
+                Utils.dispatchTouch(reg_container);
                 break;
             case 4:
-                Utils.dispatchTouch(reg_container);
+                Utils.dispatchTouch(buttonReg);
                 break;
             case 5:
                 Utils.dispatchTouch(login_container);
                 break;
             case 6:
+                Utils.dispatchTouch(buttonLog);
+                break;
+            case 7:
                 Utils.dispatchTouch(reg_container);
                 break;
-            case 7:*/
-            case 3:
+            case 8:
                 AnimUtils.beginDelayedTransition(root);
                 container2.setVisibility(View.GONE);
                 text2.setVisibility(View.VISIBLE);
                 break;
-            case 4:
+            case 9:
                 text2.setText(code2);
                 break;
             default:
@@ -172,34 +178,11 @@ public class MorphingButtonCodeFragment extends BaseFragment {
     public void onRegClick(final View v) {
         if (loginOpened)
             onButtonLogClick();
+
         registerOpened = true;
         reg_container.setClickable(false);
 
-        TransitionSet set = new TransitionSet();
-        set.setOrdering(TransitionSet.ORDERING_SEQUENTIAL);
-        Pop pop = new Pop();
-        pop.setPropagation(new CircularPropagation() {
-            @Override
-            public long getStartDelay(ViewGroup sceneRoot, Transition transition, TransitionValues startValues, TransitionValues endValues) {
-                long delay = super.getStartDelay(sceneRoot, transition, startValues, endValues) * 6;
-                Log.d(TAG, "StartDelay: " + delay);
-                return delay;
-            }
-        });
-        pop.setEpicenterCallback(new Transition.EpicenterCallback() {
-            @Override
-            public Rect onGetEpicenter(Transition transition) {
-                int[] loc = new int[2];
-                container3.getLocationOnScreen(loc);
-
-                //return new Rect(loc[0], loc[1], loc[0] + v.getWidth(), loc[1] + v.getHeight());
-                return new Rect(loc[0], loc[1], loc[0] + container3.getWidth(), loc[1] + 40);
-            }
-        });
-
-        set.addTransition(new ChangeBounds()).addTransition(pop);
-        AnimUtils.beginDelayedTransition(container3, set);
-
+        AnimUtils.beginDelayedTransition(container3);
         ButterKnife.apply(register, new ButterKnife.Action<View>() {
             @Override
             public void apply(View view, int i) {
@@ -214,30 +197,7 @@ public class MorphingButtonCodeFragment extends BaseFragment {
         registerOpened = false;
         reg_container.setClickable(true);
 
-        TransitionSet set = new TransitionSet();
-        set.setOrdering(TransitionSet.ORDERING_SEQUENTIAL);
-        Pop pop = new Pop();
-        pop.setPropagation(new CircularPropagation() {
-            @Override
-            public long getStartDelay(ViewGroup sceneRoot, Transition transition, TransitionValues startValues, TransitionValues endValues) {
-                long delay = super.getStartDelay(sceneRoot, transition, startValues, endValues) * 6;
-                Log.d(TAG, "StartDelay: " + delay);
-                return delay;
-            }
-        });
-        pop.setEpicenterCallback(new Transition.EpicenterCallback() {
-            @Override
-            public Rect onGetEpicenter(Transition transition) {
-                int[] loc = new int[2];
-                container3.getLocationOnScreen(loc);
-
-                //return new Rect(loc[0], loc[1], loc[0] + v.getWidth(), loc[1] + v.getHeight());
-                return new Rect(loc[0], loc[1], loc[0] + container3.getWidth(), loc[1] + 40);
-            }
-        });
-
-        set.addTransition(pop).addTransition(new ChangeBounds());
-        AnimUtils.beginDelayedTransition(container3, set);
+        AnimUtils.beginDelayedTransition(container3);
         ButterKnife.apply(register, new ButterKnife.Action<View>() {
             @Override
             public void apply(View view, int i) {
@@ -286,4 +246,14 @@ public class MorphingButtonCodeFragment extends BaseFragment {
         return null;
     }
 
+    @Override
+    public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
+        if (transit == 0) {
+            return null;
+        }
+
+        //Target will be filled in by the framework
+        return enter ? null :
+                ObjectAnimator.ofFloat(null, new YFractionProperty(), 0f, -1f);
+    }
 }

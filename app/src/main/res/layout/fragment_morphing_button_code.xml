@@ -13,7 +13,7 @@
 
     <com.luciofm.droidcon.ifican.widget.TextView
         android:id="@+id/text1"
-        android:text="Morphing Button"
+        android:text="Transition Manager"
         android:layout_marginTop="@dimen/padding"
         android:gravity="center"
         android:textSize="@dimen/text_title"
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/padding"
                 android:orientation="vertical"
-                android:background="@color/grey_light"
+                android:background="@drawable/ripple_pink"
                 android:id="@+id/reg_container">
                 <TextView
                     android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/pink"
-                    android:textColorHint="@color/pink_light"
+                    android:textColorHint="@color/grey_dark"
                     android:hint="email"
                     android:enabled="false"
                     android:inputType="textEmailAddress"
@@ -74,13 +74,14 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="20dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
                 <EditText
                     android:id="@+id/editReg2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/pink"
-                    android:textColorHint="@color/pink_light"
+                    android:textColorHint="@color/grey_dark"
                     android:hint="password"
                     android:enabled="false"
                     android:inputType="textPassword"
@@ -96,7 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/pink"
-                    android:textColorHint="@color/pink_light"
+                    android:textColorHint="@color/grey_dark"
                     android:hint="repeat password"
                     android:inputType="textPassword"
                     android:background="@android:color/white"
@@ -140,7 +141,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/pink"
-                    android:textColorHint="@color/pink_light"
+                    android:textColorHint="@color/grey_dark"
                     android:hint="email"
                     android:enabled="false"
                     android:inputType="textEmailAddress"
@@ -153,7 +154,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/pink"
-                    android:textColorHint="@color/pink_light"
+                    android:textColorHint="@color/grey_dark"
                     android:hint="password"
                     android:enabled="false"
                     android:inputType="textPassword"
@@ -180,7 +181,7 @@
 
     <TextSwitcher
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/text2"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"

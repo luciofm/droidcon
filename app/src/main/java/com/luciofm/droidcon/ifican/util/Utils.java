@@ -34,10 +34,39 @@ public class Utils {
         }
     }
 
-    public static void stopGif(GifImageView view) {
-        GifDrawable drawable = (GifDrawable) view.getDrawable();
-        if (drawable.isPlaying())
-            drawable.stop();
+    public static void startGifDelayed(final GifImageView view) {
+        startGifDelayed(view, 300);
+    }
+
+    public static void startGifDelayed(final GifImageView view, long delay) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (view == null)
+                    return;
+
+                GifDrawable drawable = (GifDrawable) view.getDrawable();
+                if (!drawable.isPlaying()) {
+                    drawable.reset();
+                    drawable.start();
+                }
+            }
+        }, delay);
+    }
+
+    public static void stopGif(GifImageView... views) {
+        for (GifImageView view : views) {
+            GifDrawable drawable = (GifDrawable) view.getDrawable();
+            if (drawable.isPlaying())
+                drawable.stop();
+        }
+    }
+
+    public static void resetGif(GifImageView... views) {
+        for (GifImageView view : views) {
+            GifDrawable drawable = (GifDrawable) view.getDrawable();
+            drawable.reset();
+        }
     }
 
     public static void dispatchTouch(View view) {

@@ -17,5 +17,6 @@ allprojects {
     repositories {
         jcenter()
         mavenCentral()
+        maven { url 'http://maven.luciofm.com/whi-repo' }
     }
 }
