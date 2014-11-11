@@ -10,3 +10,6 @@ The layouts are not "responsive" so I REALLY recommend using a new Nexus 7 (or t
 It will crash if not run on Lollypop...
 
 Thanks for eveyone that came to the Talk...
+
+
+The talk video is available here -> https://skillsmatter.com/skillscasts/5615-if-i-can-you-can-too-animations-for-developers
